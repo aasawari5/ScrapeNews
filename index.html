@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechNews Post</title>
+    <link href = "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .download-button {
+            background: linear-gradient(to right, #30cfd0, #330867);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .download-button:hover {
+            background: linear-gradient(to right, #330867, #30cfd0);
+        }
+    </style>
+</head>
+
+<body class="bg-cover bg-center bg-no-repeat" style="background-image: url('../static/image/bg.png');">
+    <div class="bottom-6 m-auto relative" id="container" style="width: 614px; height: 700px;">
+        <img id="bg" src="" alt="bgImage">
+        <span class="font-mono text-lg absolute text-white whitespace-pre-line text-justify" id="News"
+            style="width: 550px; top: 100px; left: 30px; line-height: 2em;">
+        {{News|safe}}</span>
+    </div>
+    <button class="download-button" onclick="download()">Download Post</button>
+    </div>
+
+
+    <!--script to get random backgrounds for the scraped data-->
+    <script>
+        var newbg = document.getElementById("bg");
+        var background = new Image();
+        background.src = "static/image/" + (Math.floor(Math.random() * (7)) + 1) + ".png";
+        newbg.src = background.src;
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+    <script>
+        function download() {
+            html2canvas(document.querySelector(".container")).then(canvas => {
+                var a = document.createElement('a');
+                document.body.appendChild(a); // Append the <a> element to the DOM
+                a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                a.download = 'TechPost.png';
+                a.click();
+                document.body.removeChild(a); // Remove the <a> element after download
+            }).catch(error => {
+                console.error('Error generating screenshot:', error);
+            });
+        }
+    </script>
+
+</body>
+</html>
